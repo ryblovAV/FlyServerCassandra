@@ -1,9 +1,9 @@
 package utl
 
 import config.JsonFieldName._
+import models.{FlyFile, Media}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, _}
-import utl.cassandra.{FlyFile, Media}
 
 case class MediaInfoKey(size: String, tth: String)
 
