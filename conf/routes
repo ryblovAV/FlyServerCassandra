@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+POST    /fly-zget                   controllers.Application.getInfo
+
+GET     /test                       controllers.Application.getInfoTest(tth: String,size: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+    
