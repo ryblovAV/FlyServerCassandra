@@ -5,6 +5,9 @@ import models.{FlyFile, Media}
 import utl.MediaInfoKey
 
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
+
+import play.Logger._
 
 
 abstract class FlyFiles extends CassandraTable[ConcreteFlyFiles, FlyFile] {
@@ -85,6 +88,13 @@ abstract class ConcreteFlyFiles extends FlyFiles with Connector {
 
   def getByKey(mediaInfoKey: MediaInfoKey): Future[Option[FlyFile]] = {
     select.where(_.tth eqs mediaInfoKey.tth).and(_.size eqs mediaInfoKey.size).consistencyLevel_=(ConsistencyLevel.ONE).one()
+  }
+
+  def getByKeyDebug(mediaInfoKey: MediaInfoKey) = {
+    select.where(_.tth eqs mediaInfoKey.tth).and(_.size eqs mediaInfoKey.size).consistencyLevel_=(ConsistencyLevel.ONE).one().onComplete{
+      case Success(s) => info(s"result = $s")
+      case Failure(e) => info(s"error = $e")
+    }
   }
 
 }

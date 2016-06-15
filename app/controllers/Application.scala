@@ -7,6 +7,8 @@ import utl.{JsonUtl, MediaInfoKey, ZLibUtl}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+import play.Logger._
+
 class Application extends Controller {
 
   def getInfo = Action.async(parse.raw) {
@@ -14,6 +16,8 @@ class Application extends Controller {
       request.body.asBytes() match {
         case Some(bs) =>
           val requestInfo = JsonUtl.parse(ZLibUtl.decompress(bs.toArray))
+
+          debug(s"requestInfo.array = ${requestInfo.array}")
 
           MediaInfoReader.find(requestInfo.array)
             .map(js => ZLibUtl.compress(js.toString.getBytes))
@@ -26,7 +30,8 @@ class Application extends Controller {
   }
 
   def getInfoTest(tth: String, size: String) = Action {
-    Ok(MediaInfoReader.find(List(MediaInfoKey(tth = tth, size = size))).toString)
+    MediaInfoReader.findDebug(List(MediaInfoKey(tth = tth, size = size)))
+    Ok
   }
 
 

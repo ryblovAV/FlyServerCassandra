@@ -16,4 +16,8 @@ object MediaInfoReader {
       .map(l => JsonUtl.toJson(l))
   }
 
+  def findDebug(keys: List[MediaInfoKey]) = {
+    keys.map(k => FlyDatabase.flyFiles.getByKeyDebug(k))
+  }
+
 }
