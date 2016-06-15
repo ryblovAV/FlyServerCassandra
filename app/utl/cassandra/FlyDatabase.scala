@@ -1,8 +1,8 @@
 package utl.cassandra
 
+import com.typesafe.config.ConfigFactory
 import com.websudos.phantom.connectors.{ContactPoints, KeySpaceDef}
 import com.websudos.phantom.dsl._
-import config.CassandraConfig._
 
 trait Connector {
   implicit def space: KeySpace
@@ -10,7 +10,12 @@ trait Connector {
 }
 
 object Defaults {
-  val hosts = Seq(host)
+
+  val config = ConfigFactory.load()
+
+  val hosts = Seq(config.getString("cassandra.host"))
+  val keySpace = config.getString("cassandra.keyspace")
+
   val connector = ContactPoints(hosts).keySpace(keySpace)
 }
 
