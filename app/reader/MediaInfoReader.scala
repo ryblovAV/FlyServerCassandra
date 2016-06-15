@@ -6,6 +6,8 @@ import utl.{JsonUtl, MediaInfoKey}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+import play.Logger._
+
 object MediaInfoReader {
 
   def find(keys: List[MediaInfoKey]) = {
@@ -17,6 +19,7 @@ object MediaInfoReader {
   }
 
   def findDebug(keys: List[MediaInfoKey]) = {
+    info(s"findDebug keys=$keys")
     keys.map(k => FlyDatabase.flyFiles.getByKeyDebug(k))
   }
 

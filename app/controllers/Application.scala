@@ -17,8 +17,6 @@ class Application extends Controller {
         case Some(bs) =>
           val requestInfo = JsonUtl.parse(ZLibUtl.decompress(bs.toArray))
 
-          debug(s"requestInfo.array = ${requestInfo.array}")
-
           MediaInfoReader.find(requestInfo.array)
             .map(js => ZLibUtl.compress(js.toString.getBytes))
             .map(mediaInfoCompress => Ok(mediaInfoCompress))
@@ -30,6 +28,7 @@ class Application extends Controller {
   }
 
   def getInfoTest(tth: String, size: String) = Action {
+    info(s"getInfoTest: tth=$tth, size = $size")
     MediaInfoReader.findDebug(List(MediaInfoKey(tth = tth, size = size)))
     Ok
   }

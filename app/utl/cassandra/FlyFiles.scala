@@ -91,6 +91,7 @@ abstract class ConcreteFlyFiles extends FlyFiles with Connector {
   }
 
   def getByKeyDebug(mediaInfoKey: MediaInfoKey) = {
+    info(s"getByKeyDebug: mediaInfoKey = $mediaInfoKey")
     select.where(_.tth eqs mediaInfoKey.tth).and(_.size eqs mediaInfoKey.size).consistencyLevel_=(ConsistencyLevel.ONE).one().onComplete{
       case Success(s) => info(s"result = $s")
       case Failure(e) => info(s"error = $e")
